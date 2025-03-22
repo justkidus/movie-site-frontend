@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import config from '../../config.json';
 import axios from 'axios';
 const MovieProgress = () => {
 	const navigate = useNavigate();
-	// const { id } = useParams();
-	const API_KEY = config.API_KEY;
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
 	const [fav, setFav] = useState([]);
 	const [movies, setMovies] = useState([]);
 

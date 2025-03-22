@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
 		const token = Cookies.get('access_token');
 		if (!token) return setError('Token not found');
-
+		console.log(token);
 		const decodedToken = jwtDecode(token); // Decode token to get user info (e.g., _id)
 		const userId = decodedToken._id;
 

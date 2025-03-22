@@ -458,7 +458,6 @@
 ////////////////////////////////////////////////////
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import config from '../../config.json';
 import axios from 'axios';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
@@ -468,7 +467,7 @@ const MovieList = () => {
 	const [movies, setMovies] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const API_KEY = config.API_KEY;
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
 	const navigate = useNavigate();
 
 	// Fetch Movies

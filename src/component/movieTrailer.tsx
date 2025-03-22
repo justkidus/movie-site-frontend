@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
-import config from '../../config.json';
 const MovieTrailer = () => {
 	const { movieId } = useParams(); // 👈 Get movie ID from URL
 	const navigate = useNavigate();
 	const [trailerKey, setTrailerKey] = useState(null);
 	const [error, setError] = useState(null);
-	const API_KEY = config.API_KEY;
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
+
 	useEffect(() => {
 		if (!movieId) return;
 

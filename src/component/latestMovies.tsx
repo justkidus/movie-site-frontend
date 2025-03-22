@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import config from '../../config.json';
+// import config from '../../config.json';
 const LatestMovies = () => {
 	const [movies, setMovies] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate(); // 👈 React Router navigation
-	const API_KEY = config.API_KEY;
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
+
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {

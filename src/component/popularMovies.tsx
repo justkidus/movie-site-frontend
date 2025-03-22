@@ -1,9 +1,9 @@
-import config from '../../config.json';
 import useFetch from '../hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
+
 const PopularMovies = () => {
-	// const API_KEY = config.API_KEY;
-	const API_KEY = '9ba860f27b8af2a4d997f80a66b063b5';
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
+
 	const navigate = useNavigate();
 	const { data, error, loading } = useFetch(
 		// `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=2`

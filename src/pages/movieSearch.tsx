@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import config from '../../config.json';
 import axios from 'axios';
+
 const MovieSearch = () => {
+	const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY; // For Vite
 	const [videos, setVideos] = useState([]);
-	const YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
 	const [query, setQuery] = useState('');
 
 	const fetchVideos = async () => {
