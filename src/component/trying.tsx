@@ -50,8 +50,6 @@
 // export default MovieList;
 //////////////////////////////////////////////////////
 import { useEffect, useState } from 'react';
-import config from '../../config.json';
-
 // Define an interface for movie objects based on the API response
 interface Movie {
 	id: number;
@@ -63,8 +61,7 @@ const MovieList = () => {
 	const [movies, setMovies] = useState<Movie[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
-	const API_KEY = config.API_KEY;
-
+	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
