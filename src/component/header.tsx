@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 const Header = () => {
-	const [clicked, setClicked] = useState('Home');
-	const handleClick = (item) => {
+	const [clicked, setClicked] = useState<string>('Home');
+	const [show, setShow] = useState<boolean>(false);
+
+	const handleClick = (item: string) => {
 		setClicked(item); // when handleClick clicked the function came to this function make itel==Home,when movie clicked item==movie
 	};
-	const [show, setShow] = useState(false);
 	const handleShowMore = () => {
 		setShow((prev) => !prev);
 	};
