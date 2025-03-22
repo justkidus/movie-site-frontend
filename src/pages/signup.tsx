@@ -110,7 +110,11 @@ const Signup = () => {
 		setError('');
 		setSuccess('');
 		try {
-			await axios.post(`http://localhost:8080/api/register`, auth);
+			// await axios.post(`http://localhost:8080/api/register`, auth);
+			await axios.post(
+				`https://movie-site-production-2779.up.railway.app/api/register`,
+				auth
+			);
 			setSuccess('Registration success');
 			setAuth({ username: '', email: '', password: '' });
 			navigate('/login');

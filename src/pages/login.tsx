@@ -106,9 +106,14 @@ const Login = () => {
 		e.preventDefault();
 		dispatch({ type: 'LOGIN_START' });
 		try {
-			const res = await axios.post('http://localhost:8080/api/login', auth, {
-				withCredentials: true,
-			});
+			// const res = await axios.post('http://localhost:8080/api/login', auth, {
+			const res = await axios.post(
+				'https://movie-site-production-2779.up.railway.app/api/login',
+				auth,
+				{
+					withCredentials: true,
+				}
+			);
 			dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
 			setSuccess('Login successful');
 			navigate('/');
