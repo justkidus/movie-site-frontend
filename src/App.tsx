@@ -5,8 +5,9 @@ import LandPage from './component/landingPage';
 import LatestMovies from './component/latestMovies';
 import MovieList from './component/movieList';
 import PopularMovies from './component/popularMovies';
+import { AppDispatch } from './store/store';
 const App = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
 		dispatch(checkAuth());
 	}, [dispatch]);

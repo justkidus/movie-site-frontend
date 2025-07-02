@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { AppDispatch } from '../store/store';
 const Login = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		username: '',
