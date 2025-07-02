@@ -77,7 +77,7 @@ const userSlice = createSlice({
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(checkAuth.fulfilled, (state, action: PayloadAction<Auth>) => {
+			.addCase(checkAuth.fulfilled, (state, action: PayloadAction<User>) => {
 				state.loading = false;
 				state.user = action.payload;
 			})

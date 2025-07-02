@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { UseDispatch } from 'react-redux';
 import { logout } from '../store/userSlice';
 
 const Header = () => {
