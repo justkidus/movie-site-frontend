@@ -1,9 +1,15 @@
+import React, { useEffect } from 'react';
+import { checkAuth } from './store/userSlice';
+import { useDispatch } from 'react-redux';
 import LandPage from './component/landingPage';
 import LatestMovies from './component/latestMovies';
 import MovieList from './component/movieList';
 import PopularMovies from './component/popularMovies';
-
 const App = () => {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(checkAuth());
+	}, [dispatch]);
 	return (
 		<>
 			<div className="bg-gray-900 text-white min-h-screen">

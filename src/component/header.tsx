@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { UseDispatch } from 'react-redux';
+import { logout } from '../store/userSlice';
+
 const Header = () => {
+	const dispatch = useDispatch();
+	const user = useSelector((state: RootState) => state.auth.user);
 	const [clicked, setClicked] = useState<string>('Home');
 	const [show, setShow] = useState<boolean>(false);
 
@@ -8,15 +15,19 @@ const Header = () => {
 		setClicked(item); // when handleClick clicked the function came to this function make itel==Home,when movie clicked item==movie
 	};
 	const handleShowMore = () => {
-		setShow((prev) => !prev);
+		setShow(!show);
 	};
 	const navigate = useNavigate();
 	const { link } = useParams();
+	const handleLogout = () => {
+		dispatch(logout());
+		navigate('/login');
+	};
 	return (
 		<>
 			<div className="flex justify-between p-[25px] bg-black">
-				<div className="text-2xl font-bold text-[red] ">
-					<h1>Movie Site</h1>
+				<div className="text-2xl font-bold text-[red] cursor-pointer">
+					<h1 onClick={() => navigate('/')}>Movie Site</h1>
 				</div>
 
 				<div>
@@ -76,10 +87,19 @@ const Header = () => {
 								<button onClick={handleShowMore}>Profile</button>
 							</h3>
 							{show && (
-								<ul className="text-white font-light bg-[red] p-[10px] absolute cursor-pointer">
-									<li onClick={() => navigate('/login')}>Login</li>
-									<li onClick={() => navigate('/profile')}>user</li>
-									<li onClick={() => navigate('/signup')}>Register</li>
+								<ul className="text-white font-light bg-[red] p-[10px] relative cursor-pointer">
+									{!user && <li onClick={() => navigate('/login')}>Login</li>}
+									{user && (
+										<>
+											<li onClick={() => navigate('/profile')}>
+												{user.username}
+											</li>
+											<li onClick={handleLogout}>Logout</li>
+										</>
+									)}
+									{!user && (
+										<li onClick={() => navigate('/signup')}>Register</li>
+									)}
 								</ul>
 							)}
 						</li>

@@ -7,14 +7,15 @@ import Header from './component/header.tsx';
 import MovieTrailer from './component/movieTrailer.tsx';
 import MovieSearch from './pages/movieSearch.tsx';
 import Login from './pages/login.tsx';
-
-import { AuthContextProvider } from './context/authContext.tsx';
+import { Provider } from 'react-redux';
+// import { AuthContextProvider } from './context/authContext.tsx';
 import Signup from './pages/signup.tsx';
 import Profile from './pages/profile.tsx';
 import MovieProgress from './pages/movieProgress.tsx';
+import { store } from './store/store.tsx';
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<AuthContextProvider>
+		<Provider store={store}>
 			<Router>
 				<Header />
 
@@ -28,6 +29,6 @@ createRoot(document.getElementById('root')!).render(
 					<Route path="/fav" element={<MovieProgress />} />
 				</Routes>
 			</Router>
-		</AuthContextProvider>
+		</Provider>
 	</StrictMode>
 );
