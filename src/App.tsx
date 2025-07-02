@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { checkAuth } from './store/userSlice';
 import { useDispatch } from 'react-redux';
 import LandPage from './component/landingPage';
