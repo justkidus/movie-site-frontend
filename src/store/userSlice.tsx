@@ -38,11 +38,10 @@ export const loginUser = createAsyncThunk<
 	'auth/loginUser', // ✅ Unique action type prefix for this thunk
 	async ({ username, password }, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.post(
-				// 'https://movie-site-production-2779.up.railway.app/api/login',
-				'/login',
-				{ username, password }
-			);
+			const response = await axiosInstance.post('/login', {
+				username,
+				password,
+			});
 			return response.data;
 		} catch (err) {
 			return rejectWithValue('Login failed. Check your credentials');
