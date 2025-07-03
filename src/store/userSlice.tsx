@@ -24,6 +24,7 @@ export const checkAuth = createAsyncThunk<User, void, { rejectValue: string }>(
 			const response = await axiosInstance.get('/user/checkAuth');
 			return response.data;
 		} catch (error) {
+			console.log('user is not autheniticated');
 			return thunkAPI.rejectWithValue('user is not authenicated');
 		}
 	}
