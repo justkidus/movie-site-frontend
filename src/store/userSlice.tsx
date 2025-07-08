@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '../lib/axios';
+
 interface User {
 	username: string;
-	favorites: string[];
+	favMovie: string[];
 }
 
 interface AuthState {
@@ -24,11 +25,12 @@ export const checkAuth = createAsyncThunk<User, void, { rejectValue: string }>(
 			const response = await axiosInstance.get('/user/checkAuth');
 			return response.data;
 		} catch (error) {
-			console.log('user is not autheniticated');
-			return thunkAPI.rejectWithValue('user is not authenicated');
+			console.log('user is not authenticated');
+			return thunkAPI.rejectWithValue('user is not authenticated');
 		}
 	}
 );
+
 //  🔥 Async thunk for login
 // createAsyncThunk use to fetchData
 export const loginUser = createAsyncThunk<
@@ -49,6 +51,7 @@ export const loginUser = createAsyncThunk<
 		}
 	}
 );
+
 const userSlice = createSlice({
 	name: 'auth', //name is the prefix for the action type (e.g., auth/logout).
 	initialState,
@@ -57,19 +60,19 @@ const userSlice = createSlice({
 			state.user = null;
 			state.error = null;
 		},
-		addFavourite(state, action: PayloadAction<string>) {
-			if (state.user) {
-				state.user.favorites.push(action.payload);
-			}
-		},
+		// addFavourite(state, action: PayloadAction<string>) {
+		// 	if (state.user) {
+		// 		state.user.favorites.push(action.payload);
+		// 	}
+		// },
 
-		removeFavorite(state, action: PayloadAction<string>) {
-			if (state.user) {
-				state.user.favorites = state.user.favorites.filter(
-					(id) => id !== action.payload
-				);
-			}
-		},
+		// removeFavorite(state, action: PayloadAction<string>) {
+		// 	if (state.user) {
+		// 		state.user.favorites = state.user.favorites.filter(
+		// 			(id) => id !== action.payload
+		// 		);
+		// 	}
+		// },
 	},
 	extraReducers: (builder) => {
 		builder
