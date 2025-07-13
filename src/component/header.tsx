@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { logout } from '../store/userSlice';
-
+// import { logout } from '../store/userSlice';
+import { Logout } from '../store/userSlice';
+import { AppDispatch } from '../store/store';
 const Header = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	const user = useSelector((state: RootState) => state.auth.user);
 	const [clicked, setClicked] = useState<string>('Home');
 	const [show, setShow] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const { link } = useParams();
 	const handleLogout = () => {
-		dispatch(logout());
+		dispatch(Logout());
 		navigate('/login');
 	};
 	return (
@@ -32,9 +33,9 @@ const Header = () => {
 				<div>
 					<ul className="font-[700] text-[] flex gap-[15px] pr-[30px]">
 						<li
-							className={
-								clicked === 'Home' ? 'rounded border-2 border-[red]' : ''
-							}
+							className={`cursor-pointer ${
+								clicked === 'Home' ? 'border-b-2 border-white' : ''
+							}`}
 							onClick={() => handleClick('Home')}
 						>
 							<a href="/#Home" className="text-white">
@@ -42,9 +43,9 @@ const Header = () => {
 							</a>
 						</li>
 						<li
-							className={
-								clicked === 'Movies' ? 'rounded border-2 border-[red]' : ''
-							}
+							className={`cursor-pointer ${
+								clicked === 'Movies' ? 'border-b-2 border-white' : ''
+							}`}
 							onClick={() => handleClick('Movies')}
 						>
 							<a href="/#movies" className="text-white">
@@ -54,9 +55,9 @@ const Header = () => {
 						</li>
 
 						<li
-							className={
-								clicked === 'Service' ? 'rounded border-2 border-[red]' : ''
-							}
+							className={`cursor-pointer ${
+								clicked === 'fav' ? 'border-b-2 border-white' : ''
+							}`}
 							onClick={() => handleClick('Service')}
 						>
 							<Link to="/fav" className="text-white">
@@ -64,9 +65,9 @@ const Header = () => {
 							</Link>
 						</li>
 						<li
-							className={
-								clicked === 'Search' ? 'rounded border-2 border-[red]' : ''
-							}
+							className={`cursor-pointer ${
+								clicked === 'search' ? 'border-b-2 border-white' : ''
+							}`}
 							onClick={() => handleClick('Search')}
 						>
 							<button
@@ -77,16 +78,21 @@ const Header = () => {
 							</button>
 						</li>
 						<li
-							className={
-								clicked === 'Profile' ? 'rounded border-2 border-[red]' : ''
-							}
+							className={`cursor-pointer ${
+								clicked === 'profile' ? 'border-b-2 border-white' : ''
+							}`}
 							onClick={() => handleClick('Profile')}
 						>
 							<h3 className="text-white">
-								<button onClick={handleShowMore}>Profile</button>
+								<button
+									onClick={handleShowMore}
+									// className="border-2 border-bottom"
+								>
+									Profile
+								</button>
 							</h3>
 							{show && (
-								<ul className="text-white font-light bg-[red] p-[10px] relative cursor-pointer">
+								<ul className="text-white font-light bg-[red] p-[10px] absolute cursor-pointer z-10">
 									{!user && <li onClick={() => navigate('/login')}>Login</li>}
 									{user && (
 										<>
@@ -102,6 +108,9 @@ const Header = () => {
 								</ul>
 							)}
 						</li>
+						<h3>
+							<button onClick={handleShowMore} className=""></button>
+						</h3>
 					</ul>
 				</div>
 			</div>

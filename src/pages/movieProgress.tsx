@@ -84,7 +84,8 @@ const MovieProgress = () => {
 
 	return (
 		<div className="bg-black h-auto">
-			<h1>movieProgress</h1>
+			<h1 className="text-[20px] ml-[20px]">Movie Progress</h1>
+			<br />
 			<div className="grid grid-cols-4 gap-[10px]">
 				{movies.map((movie) => (
 					<div

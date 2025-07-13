@@ -18,7 +18,7 @@ const LatestMovies = () => {
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 	const API_KEY = import.meta.env.VITE_API_KEY; // Ensure your .env variable is prefixed with VITE_
-
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
@@ -45,13 +45,10 @@ const LatestMovies = () => {
 		fetchMovies();
 	}, [API_KEY]);
 
-	if (loading) return <p>Loading Movies....</p>;
-	if (error) return <p className="text-red-500">{error}</p>;
-
 	const thirtyDaysAgo = new Date();
 	thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-	const latestMovies = movies.filter((movie) => {
+	let latestMovies = movies.filter((movie) => {
 		const movieReleaseDate = new Date(movie.release_date);
 		return movieReleaseDate >= thirtyDaysAgo;
 	});
@@ -61,12 +58,27 @@ const LatestMovies = () => {
 		return text.length > length ? text.slice(0, length) + '...' : text;
 	};
 
+	const groupedMovies: Movie[][] = [];
+	for (let i = 0; i < latestMovies.length; i += 5) {
+		groupedMovies.push(latestMovies.slice(i, i + 5));
+	}
+	useEffect(() => {
+		if (!groupedMovies.length) return;
+		const interval = setInterval(() => {
+			setCurrentIndex((prev) => (prev + 1) % groupedMovies.length);
+		}, 5000);
+		return () => clearInterval(interval);
+	}, [groupedMovies.length]);
+
+	const currentGroup = groupedMovies[currentIndex] || [];
+	if (loading) return <p>Loading Movies....</p>;
+	if (error) return <p className="text-red-500">{error}</p>;
 	return (
 		<div className="mt-[20px]">
 			<h1 className="text-2xl font-bold pl-[50px] pb-[20px]">Latest Movies</h1>
 			<div className="flex justify-center items-center">
-				<div className="flex px-[20px] gap-[50px] overflow-x-auto w-[100%] whitespace-nowrap overflow-hidden">
-					{latestMovies.map((movie) => (
+				<div className="flex px-[20px] gap-[50px] w-[100%] whitespace-nowrap overflow-hidden transition-all duration-500">
+					{currentGroup.map((movie) => (
 						<div key={movie.id} className="flex-shrink-0 w-[200px]">
 							<img
 								src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

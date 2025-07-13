@@ -52,6 +52,39 @@ export const loginUser = createAsyncThunk<
 	}
 );
 
+//sign up
+
+export const signUp = createAsyncThunk<
+	User, //✅ What the thunk returns on success (User)
+	{ username: string; email: string; password: string }, // ✅ What the thunk accepts as input
+	{ rejectValue: string } // ✅ If it fails, what type is the error message
+>(
+	'auth/signup', // ✅ Unique action type prefix for this thunk
+	async ({ username, email, password }, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.post('/register', {
+				username,
+				email,
+				password,
+			});
+			return response.data;
+		} catch (err) {
+			return rejectWithValue('Signup failed. Check your credentials');
+		}
+	}
+);
+
+export const Logout = createAsyncThunk<User, void, { rejectValue: string }>(
+	'auth/logout',
+	async (_, thunkAPI) => {
+		try {
+			const response = await axiosInstance.post('/user/logout');
+			return response.data;
+		} catch (error) {
+			return thunkAPI.rejectWithValue('logout failed');
+		}
+	}
+);
 const userSlice = createSlice({
 	name: 'auth', //name is the prefix for the action type (e.g., auth/logout).
 	initialState,
@@ -60,19 +93,19 @@ const userSlice = createSlice({
 			state.user = null;
 			state.error = null;
 		},
-		// addFavourite(state, action: PayloadAction<string>) {
-		// 	if (state.user) {
-		// 		state.user.favorites.push(action.payload);
-		// 	}
-		// },
+		addFavourite(state, action: PayloadAction<string>) {
+			if (state.user) {
+				state.user.favMovie.push(action.payload);
+			}
+		},
 
-		// removeFavorite(state, action: PayloadAction<string>) {
-		// 	if (state.user) {
-		// 		state.user.favorites = state.user.favorites.filter(
-		// 			(id) => id !== action.payload
-		// 		);
-		// 	}
-		// },
+		removeFavorite(state, action: PayloadAction<string>) {
+			if (state.user) {
+				state.user.favMovie = state.user.favMovie.filter(
+					(id) => id !== action.payload
+				);
+			}
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -100,6 +133,32 @@ const userSlice = createSlice({
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload ?? 'Unknown error';
+			})
+			.addCase(signUp.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(signUp.fulfilled, (state, action: PayloadAction<User>) => {
+				state.loading = false;
+				state.user = action.payload;
+			})
+			.addCase(signUp.rejected, (state, action) => {
+				state.loading = false;
+				state.user = null;
+				state.error = action.payload || 'Unknown error';
+			})
+			.addCase(Logout.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(Logout.fulfilled, (state, action: PayloadAction<User>) => {
+				state.loading = false;
+				state.user = action.payload;
+			})
+			.addCase(Logout.rejected, (state, action) => {
+				state.loading = false;
+				state.user = null;
+				state.error = action.payload || 'Unknown error';
 			});
 	},
 });

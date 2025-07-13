@@ -1,6 +1,6 @@
 import useFetch from '../hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 // Define a Movie interface for type safety
 interface Movie {
 	id: number;
@@ -13,6 +13,7 @@ interface Movie {
 const PopularMovies = () => {
 	const API_KEY = import.meta.env.VITE_API_KEY; // For Vite
 	const navigate = useNavigate();
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
 
 	// If you don't need error and loading, remove them from destructuring:
 	const { data } = useFetch(
@@ -32,18 +33,31 @@ const PopularMovies = () => {
 	} else {
 		console.log('no fetched data');
 	}
-
+	const groupedMovies: Movie[][] = [];
+	for (let i = 0; i < movies.length; i += 5) {
+		groupedMovies.push(movies.slice(i, i + 5));
+	}
+	useEffect(() => {
+		if (!groupedMovies.length) return;
+		const interval = setInterval(() => {
+			setCurrentIndex((prev) => (prev + 1) % groupedMovies.length);
+		}, 5000);
+		return () => clearInterval(interval);
+	}, [groupedMovies.length]);
 	// Provide explicit types for parameters in truncateText
 	const truncateText = (text: string, length: number): string => {
 		return text.length > length ? text.slice(0, length) + '...' : text;
 	};
 
+	const currentGroup = groupedMovies[currentIndex] || [];
+	// console.log('current movie', currentGroup);
+	// console.log(currentIndex);
 	return (
 		<div className="mt-[30px]">
 			<h1 className="text-2xl font-bold pl-[50px] pb-[20px]">Popular Movies</h1>
 			<div className="flex justify-center items-center">
-				<div className="flex px-[20px] gap-[50px] overflow-x-auto w-[100%] whitespace-nowrap">
-					{movies.map((movie: Movie) => (
+				<div className="flex px-[20px] gap-[50px] overflow-hidden w-[100%] whitespace-nowrap">
+					{currentGroup.map((movie: Movie) => (
 						<div key={movie.id} className="flex-shrink-0 w-[200px]">
 							<img
 								src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
